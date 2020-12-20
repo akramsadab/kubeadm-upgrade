@@ -1,0 +1,14 @@
+Upgrade All Kubernetes Components on the Worker Node
+Drain the worker1 node: kubectl drain acgk8s-worker1 --ignore-daemonsets
+SSH into the node: ssh acgk8s-worker1
+Install a new version of kubeadm:
+sudo apt-get update && sudo apt-get install -y --allow-change-held-packages kubeadm=1.19.2-00
+Upgrade the node: sudo kubeadm upgrade node
+Upgrade kubelet and kubectl: sudo apt-get update && sudo apt-get install -y --allow-change-held-packages kubelet=1.19.2-00 kubectl=1.19.2-00
+
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+
+Type exit to exit the node.
+Uncordon the node: kubectl uncordon acgk8s-worker1
+Repeat the process above for acgk8s-worker2 to upgrade the other worker node.
